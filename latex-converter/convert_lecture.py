@@ -205,7 +205,7 @@ def main() -> int:
     # Stage 1: transcribe each snapshot (resumable — fragments are cached).
     fragments: dict[str, str] = {}
     if os.path.exists(frag_path):
-        with open(frag_path) as f:
+        with open(frag_path, encoding="utf-8") as f:
             fragments = json.load(f)
         print(f"resuming: {len(fragments)} fragment(s) already cached")
 
@@ -217,7 +217,7 @@ def main() -> int:
               flush=True)
         text = strip_fences(backend.generate(TRANSCRIBE_PROMPT, snap))
         fragments[name] = text
-        with open(frag_path, "w") as f:
+        with open(frag_path, "w", encoding="utf-8") as f:
             json.dump(fragments, f, indent=1)
 
     # Stage 2: merge into one document.
@@ -231,7 +231,7 @@ def main() -> int:
     tex = strip_fences(backend.generate(
         MERGE_PROMPT.format(title=args.title, fragments="\n\n".join(ordered))
     ))
-    with open(tex_path, "w") as f:
+    with open(tex_path, "w", encoding="utf-8") as f:
         f.write(tex)
     print(f"wrote {tex_path}")
 
@@ -249,12 +249,12 @@ def main() -> int:
             return 1
         print("compile failed — asking the model to fix …", flush=True)
         err_tail = (comp.stderr or comp.stdout)[-3000:]
-        with open(tex_path) as f:
+        with open(tex_path, encoding="utf-8") as f:
             current = f.read()
         tex = strip_fences(backend.generate(
             FIX_PROMPT.format(error=err_tail, tex=current)
         ))
-        with open(tex_path, "w") as f:
+        with open(tex_path, "w", encoding="utf-8") as f:
             f.write(tex)
 
     return 1

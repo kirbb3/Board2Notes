@@ -185,9 +185,9 @@ def main() -> int:
                     help="write <out>.timeline.txt and exit (no model calls)")
     args = ap.parse_args()
 
-    with open(args.transcript) as f:
+    with open(args.transcript, encoding="utf-8") as f:
         transcript = json.load(f)
-    with open(args.fragments) as f:
+    with open(args.fragments, encoding="utf-8") as f:
         fragments = json.load(f)
 
     title = args.title or transcript.get("title", "Lecture Notes")
@@ -203,7 +203,7 @@ def main() -> int:
 
     if args.dry_run:
         path = out_base + ".timeline.txt"
-        with open(path, "w") as f:
+        with open(path, "w", encoding="utf-8") as f:
             f.write(timeline)
         print(f"dry run: wrote {path}")
         return 0
@@ -221,7 +221,7 @@ def main() -> int:
     print("fusing transcript + boards …", flush=True)
     tex = strip_fences(backend.generate(prompt))
     tex_path = out_base + ".tex"
-    with open(tex_path, "w") as f:
+    with open(tex_path, "w", encoding="utf-8") as f:
         f.write(tex)
     print(f"wrote {tex_path}")
 
@@ -238,12 +238,12 @@ def main() -> int:
             return 1
         print("compile failed — asking the model to fix …", flush=True)
         err_tail = (comp.stderr or comp.stdout)[-3000:]
-        with open(tex_path) as f:
+        with open(tex_path, encoding="utf-8") as f:
             current = f.read()
         tex = strip_fences(backend.generate(
             FIX_PROMPT.format(error=err_tail, tex=current)
         ))
-        with open(tex_path, "w") as f:
+        with open(tex_path, "w", encoding="utf-8") as f:
             f.write(tex)
 
     return 1

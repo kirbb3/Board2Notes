@@ -162,7 +162,7 @@ def write_markdown(paragraphs: list[dict], path: str, title: str) -> None:
         else:
             lines.append(f"**[{fmt_ts(p['start'])}]** {p['text']}")
         lines.append("")
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
 
 
@@ -188,7 +188,7 @@ def main() -> int:
     out_base = os.path.abspath(args.out)
     os.makedirs(os.path.dirname(out_base) or ".", exist_ok=True)
     write_markdown(paragraphs, out_base + ".md", title)
-    with open(out_base + ".json", "w") as f:
+    with open(out_base + ".json", "w", encoding="utf-8") as f:
         json.dump({"title": title, "paragraphs": paragraphs}, f, indent=1)
 
     n_starred = sum(1 for p in paragraphs if p["stars"])
