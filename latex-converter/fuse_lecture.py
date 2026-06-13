@@ -10,27 +10,32 @@ textbook-quality LaTeX document:
 - the professor's spoken words become brief connective prose between the
   math blocks (rewritten textbook-style, not quoted verbatim)
 - ★-flagged moments become highly visible "EXAM PRIORITY" callout boxes
-- soft-emphasis paragraphs are judged by the model in context (callout only
-  if they clearly point at assessable material)
 - the model fixes ASR errors using context (e.g. "minimum wage spanning
   tree" → "minimum weight spanning tree")
+
+The document is built SECTION BY SECTION rather than in one giant model
+call: the lecture timeline is split into chunks of a few boards each (plus
+the speech around them), and the model writes the LaTeX body for one chunk
+at a time. This keeps every call small enough for a local model to handle
+faithfully — a single whole-lecture call makes small models dump the raw
+transcript, truncate, and loop. The preamble is fixed by us (not model
+generated), so the document structure is always correct.
 
 Backends are shared with convert_lecture.py (ollama / claude CLI).
 
 Usage:
     python3 fuse_lecture.py <transcript.json> <fragments.json> \
-        -o output/lecture --backend ollama --model gemma3:27b \
+        -o output/lecture --backend ollama --model gemma3:12b \
         --ollama-host http://<desktop-ip>:11434
 
-`--dry-run` writes the interleaved timeline (the model's input) to
-<out>.timeline.txt and exits without calling any model — useful to check
-that board snapshots land between the right paragraphs.
+`--dry-run` writes the chunk plan (how boards/paragraphs are grouped and the
+exact slice text sent to the model) to <out>.plan.txt and exits without
+calling any model.
 """
 
 import argparse
 import json
 import os
-import re
 import sys
 
 from convert_lecture import (
@@ -42,71 +47,67 @@ from convert_lecture import (
     FIX_PROMPT,
 )
 
-FUSE_PROMPT = """You are reconstructing a university lecture as a textbook \
-chapter. Below is a timeline that interleaves two sources, in chronological \
-order:
+# Fixed document head — WE control this, the model only writes body sections.
+PREAMBLE = r"""\documentclass[11pt]{{article}}
+\usepackage[margin=1in]{{geometry}}
+\usepackage{{amsmath,amssymb,amsthm}}
+\usepackage{{tikz}}
+\usetikzlibrary{{positioning}}
+\newtheorem{{theorem}}{{Theorem}}
+\theoremstyle{{definition}}
+\newtheorem*{{definition*}}{{Definition}}
+\newenvironment{{exambox}}
+  {{\par\medskip\noindent\begin{{center}}\begin{{minipage}}{{0.92\textwidth}}%
+   \hrule height 1pt \vspace{{4pt}}\noindent\textbf{{$\bigstar$ EXAM PRIORITY.}} }}
+  {{\vspace{{4pt}}\hrule height 1pt \end{{minipage}}\end{{center}}\medskip}}
+\title{{{title}}}
+\date{{{date}}}
+\author{{}}
+\begin{{document}}
+\maketitle
+"""
 
-- [BOARD ...] blocks: LaTeX transcriptions of chalkboard snapshots. This is
-  the mathematical spine of the lecture: definitions, theorems, proofs,
-  derivations, examples, and TikZ diagrams.
-- [SPOKEN ...] blocks: what the professor said (cleaned ASR captions).
-  Markers on spoken blocks: ★ means the professor explicitly referenced an
-  exam ("on the final", "you should definitely know", ...); (emphasis) means
-  softer emphasis wording was detected.
+DOC_TAIL = "\n\\end{document}\n"
 
-Write ONE complete, self-contained LaTeX document that reads like a textbook
-chapter:
+CHUNK_PROMPT = """You are writing ONE part of a textbook chapter \
+reconstructed from a university lecture. Below is a slice of the lecture \
+timeline, in chronological order:
 
-- The board math is the spine. Keep ALL distinct mathematical content from
-  the boards: every definition, theorem, proof, derivation, example, and
-  TikZ diagram, at its fullest state, each appearing once, in lecture order.
-  Do not summarize or shorten the math. Consecutive board snapshots overlap
-  heavily (the same panel at different stages); deduplicate, and use later
-  duplicates to fill %OCCLUDED gaps in earlier ones.
-- Use the SPOKEN blocks to write brief connective prose between the math:
-  motivation, intuition, transitions, and any worked reasoning that never
-  made it onto the board. Rewrite it as polished textbook prose — never
-  quote the professor verbatim, and drop administrative chatter (homework
-  logistics, jokes, attendance, course evaluations).
-- The captions contain speech-recognition errors. Fix them from context
-  (e.g. "minimum wage spanning tree" must become "minimum weight spanning
-  tree"). Never let an obvious ASR error into the document.
-- For every ★ SPOKEN block, wrap the related material in the exambox
-  environment (defined in the preamble below) with a one-line summary of
-  what the professor said to know for the exam. Place the box next to the
-  math it refers to. For (emphasis) blocks, use your judgement: add an
-  exambox only if the professor is clearly pointing at assessable material;
-  otherwise just let the emphasis inform the prose.
-- Structure the document with \\section* headings that follow the lecture's
-  actual topics. Use amsthm environments (theorem, definition, proof) where
-  the content is structured that way.
-- Start the document EXACTLY with this preamble, then continue after
-  \\maketitle:
+- [BOARD ...] blocks: LaTeX transcriptions of chalkboard snapshots — the
+  mathematical spine (definitions, theorems, proofs, derivations, diagrams).
+  Consecutive boards in this slice OVERLAP HEAVILY: the same panel
+  re-photographed as it was being written. Merge them — keep each distinct
+  piece of math ONCE, at its fullest/most-complete state, in order.
+- [SPOKEN ...] blocks: cleaned speech-to-text of what the professor said.
+  ★ marks an explicit exam reference; (emphasis) marks softer emphasis.
 
-\\documentclass[11pt]{{article}}
-\\usepackage[margin=1in]{{geometry}}
-\\usepackage{{amsmath,amssymb,amsthm}}
-\\usepackage{{tikz}}
-\\usetikzlibrary{{positioning}}
-\\newtheorem{{theorem}}{{Theorem}}
-\\theoremstyle{{definition}}
-\\newtheorem*{{definition*}}{{Definition}}
-\\newenvironment{{exambox}}
-  {{\\par\\medskip\\noindent\\begin{{center}}\\begin{{minipage}}{{0.92\\textwidth}}%
-   \\hrule height 1pt \\vspace{{4pt}}\\noindent\\textbf{{$\\bigstar$ EXAM PRIORITY.}} }}
-  {{\\vspace{{4pt}}\\hrule height 1pt \\end{{minipage}}\\end{{center}}\\medskip}}
-\\title{{{title}}}
-\\date{{{date}}}
-\\author{{}}
+Write the LaTeX BODY for this part of the chapter:
 
-- Use no packages beyond those. The document must compile with pdflatex on
-  the first try.
-- Output ONLY the complete .tex source, starting with \\documentclass. No
-  explanations, no markdown fences.
+- The board math is the spine. Keep all distinct mathematical content, but
+  deduplicate the overlapping board snapshots — do not repeat the same
+  definition or theorem several times.
+- Turn the speech into brief connective textbook prose (motivation,
+  intuition, transitions). NEVER quote the professor verbatim, NEVER include
+  the [SPOKEN]/[BOARD] markers or the timestamps, and drop administrative
+  chatter (homework logistics, jokes, attendance, evaluations).
+- Fix obvious speech-recognition errors from context — e.g. "a cyclic" ->
+  "acyclic", "minimum wage spanning tree" -> "minimum weight spanning tree".
+- For a ★ block, wrap the relevant point in the exambox environment with a
+  one-line summary of what to know for the exam.
+- Use \\section*{{...}} only when this slice clearly starts a new topic. Use
+  the amsthm environments theorem / definition* / proof where the content is
+  structured that way. Keep tikzpicture diagrams (deduplicated). If a board
+  fragment's TikZ is clearly broken or trivial, draw a correct small diagram
+  for the concept instead.
+- Output ONLY the LaTeX body for this slice. NO \\documentclass, NO preamble,
+  NO \\begin{{document}} or \\end{{document}}, NO markdown fences. It will be
+  concatenated into a document that already loads amsmath, amssymb, amsthm,
+  tikz (positioning) and defines the theorem, definition*, and exambox
+  environments.
 
-The timeline:
+The timeline slice:
 
-{timeline}"""
+{slice}"""
 
 
 def fmt_ts(seconds: float) -> str:
@@ -125,12 +126,13 @@ def fragment_time(name: str) -> int:
     return int(m.group(1)) * 3600 + int(m.group(2)) * 60 + int(m.group(3))
 
 
-def build_timeline(paragraphs: list[dict], fragments: dict[str, str]) -> str:
+def build_events(paragraphs: list[dict], fragments: dict[str, str]) -> list:
     """Interleave spoken paragraphs and board fragments chronologically.
 
     A board snapshot is taken right BEFORE a panel is erased, so its content
     was written over the minutes leading up to its timestamp. Sorting both
     sources by time keeps each snapshot after the speech that produced it.
+    The secondary key puts a board just before speech at the same instant.
     """
     events = []
     for p in paragraphs:
@@ -138,10 +140,34 @@ def build_timeline(paragraphs: list[dict], fragments: dict[str, str]) -> str:
     for name, latex in fragments.items():
         if latex.strip() == "EMPTY":
             continue
-        # Tiebreak 1: a board state precedes speech at the same instant.
         events.append((fragment_time(name), -1, "board", (name, latex)))
     events.sort(key=lambda e: (e[0], e[1]))
+    return events
 
+
+def chunk_events(events: list, boards_per_chunk: int) -> list:
+    """Group events into chunks of at most `boards_per_chunk` boards.
+
+    Speech is carried along with the boards that follow it; a chunk closes
+    after its Nth board, so each chunk holds a few overlapping board states
+    plus the speech around them — small enough for one faithful model call,
+    and scoped so the model can dedup the overlap within the chunk.
+    """
+    chunks, cur, boards = [], [], 0
+    for ev in events:
+        cur.append(ev)
+        if ev[2] == "board":
+            boards += 1
+            if boards >= boards_per_chunk:
+                chunks.append(cur)
+                cur, boards = [], 0
+    if cur:
+        chunks.append(cur)
+    return chunks
+
+
+def render_slice(events: list) -> str:
+    """Render a list of events to the [SPOKEN]/[BOARD] text the model sees."""
     lines = []
     for t, _, kind, payload in events:
         if kind == "speech":
@@ -163,6 +189,27 @@ def build_timeline(paragraphs: list[dict], fragments: dict[str, str]) -> str:
     return "\n".join(lines)
 
 
+def strip_body(text: str) -> str:
+    """Salvage just the body from a model reply, even if it wrongly wrapped
+    the output in a full document or fences."""
+    text = strip_fences(text).strip()
+    if "\\begin{document}" in text:
+        text = text.split("\\begin{document}", 1)[1]
+    if "\\end{document}" in text:
+        text = text.split("\\end{document}", 1)[0]
+    preamble_starts = (
+        "\\documentclass", "\\usepackage", "\\usetikzlibrary",
+        "\\newtheorem", "\\theoremstyle", "\\newenvironment",
+        "\\title", "\\author", "\\date",
+    )
+    keep = [
+        ln for ln in text.splitlines()
+        if not (ln.strip().startswith(preamble_starts)
+                or ln.strip() == "\\maketitle")
+    ]
+    return "\n".join(keep).strip()
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("transcript", help="transcript-engine .json output")
@@ -175,14 +222,16 @@ def main() -> int:
                     help="document date line (default: empty)")
     ap.add_argument("--backend", choices=["ollama", "claude"],
                     default="ollama")
-    ap.add_argument("--model", default="gemma3:27b",
+    ap.add_argument("--model", default="gemma3:12b",
                     help="model name (ollama tag, or claude model alias)")
     ap.add_argument("--ollama-host", default="http://localhost:11434")
-    ap.add_argument("--num-ctx", type=int, default=32768,
-                    help="ollama context window for the fuse step")
+    ap.add_argument("--num-ctx", type=int, default=16384,
+                    help="ollama context window per chunk")
+    ap.add_argument("--boards-per-chunk", type=int, default=4,
+                    help="how many board snapshots per model call")
     ap.add_argument("--max-fixes", type=int, default=3)
     ap.add_argument("--dry-run", action="store_true",
-                    help="write <out>.timeline.txt and exit (no model calls)")
+                    help="write <out>.plan.txt and exit (no model calls)")
     args = ap.parse_args()
 
     with open(args.transcript, encoding="utf-8") as f:
@@ -191,35 +240,48 @@ def main() -> int:
         fragments = json.load(f)
 
     title = args.title or transcript.get("title", "Lecture Notes")
-    timeline = build_timeline(transcript["paragraphs"], fragments)
+    events = build_events(transcript["paragraphs"], fragments)
+    chunks = chunk_events(events, args.boards_per_chunk)
+
+    n_board = sum(1 for _, _, k, _ in events if k == "board")
+    n_star = sum(1 for p in transcript["paragraphs"] if p.get("stars"))
+    print(f"{len(transcript['paragraphs'])} spoken paragraphs, "
+          f"{n_board} board fragment(s), {n_star} ★ flag(s) "
+          f"→ {len(chunks)} chunk(s) of ≤{args.boards_per_chunk} boards")
 
     out_base = os.path.abspath(args.out)
     os.makedirs(os.path.dirname(out_base) or ".", exist_ok=True)
 
-    n_board = sum(1 for v in fragments.values() if v.strip() != "EMPTY")
-    n_star = sum(1 for p in transcript["paragraphs"] if p.get("stars"))
-    print(f"timeline: {len(transcript['paragraphs'])} spoken paragraphs, "
-          f"{n_board} board fragment(s), {n_star} ★ flag(s)")
-
     if args.dry_run:
-        path = out_base + ".timeline.txt"
+        path = out_base + ".plan.txt"
         with open(path, "w", encoding="utf-8") as f:
-            f.write(timeline)
+            for i, ch in enumerate(chunks, 1):
+                nb = sum(1 for _, _, k, _ in ch if k == "board")
+                ns = sum(1 for _, _, k, _ in ch if k == "speech")
+                f.write(f"{'='*70}\nCHUNK {i}/{len(chunks)} — "
+                        f"{nb} board(s), {ns} paragraph(s)\n{'='*70}\n")
+                f.write(render_slice(ch) + "\n")
         print(f"dry run: wrote {path}")
         return 0
 
     if args.backend == "ollama":
         backend = OllamaBackend(args.model, args.ollama_host, args.num_ctx)
     else:
-        backend = ClaudeBackend(None if args.model == "gemma3:27b"
+        backend = ClaudeBackend(None if args.model == "gemma3:12b"
                                 else args.model)
 
-    # LaTeX braces in the preamble are doubled for str.format; only the
-    # three placeholders are single-braced.
-    prompt = FUSE_PROMPT.format(title=title, date=args.date,
-                                timeline=timeline)
-    print("fusing transcript + boards …", flush=True)
-    tex = strip_fences(backend.generate(prompt))
+    bodies = []
+    for i, ch in enumerate(chunks, 1):
+        nb = sum(1 for _, _, k, _ in ch if k == "board")
+        print(f"[{i}/{len(chunks)}] fusing chunk ({nb} board(s)) …",
+              flush=True)
+        body = strip_body(backend.generate(
+            CHUNK_PROMPT.format(slice=render_slice(ch))
+        ))
+        bodies.append(body)
+
+    tex = (PREAMBLE.format(title=title, date=args.date)
+           + "\n\n".join(bodies) + DOC_TAIL)
     tex_path = out_base + ".tex"
     with open(tex_path, "w", encoding="utf-8") as f:
         f.write(tex)
