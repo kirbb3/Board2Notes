@@ -139,7 +139,12 @@ class ClaudeBackend:
 # ----------------------------------------------------------------- helpers
 
 def find_snapshots(folder: str) -> list[str]:
-    paths = glob.glob(os.path.join(folder, "board-*.png"))
+    # board-region.png is a debug image (the detected board with a red box
+    # drawn on it), not a real snapshot — skip it.
+    paths = [
+        p for p in glob.glob(os.path.join(folder, "board-*.png"))
+        if os.path.basename(p) != "board-region.png"
+    ]
 
     def ts(p: str) -> int:
         m = TS_RE.search(os.path.basename(p))
