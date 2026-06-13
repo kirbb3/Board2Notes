@@ -1,0 +1,9 @@
+.venv/
+venv/
+__pycache__/
+*.mp4
+*.ts
+.DS_Store
+*.aux
+*.log
+*.synctex.gz

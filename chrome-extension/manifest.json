@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Lecture Grabber",
+  "version": "0.1.0",
+  "description": "Download Panopto lecture videos and caption transcripts from Canvas for local processing.",
+  "permissions": ["downloads", "webRequest", "tabs", "storage"],
+  "host_permissions": [
+    "*://*.panopto.com/*",
+    "*://*.panopto.eu/*",
+    "*://*.cloudfront.net/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Lecture Grabber"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.panopto.com/*", "*://*.panopto.eu/*"],
+      "js": ["content.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ]
+}

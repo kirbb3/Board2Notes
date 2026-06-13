@@ -1,0 +1,501 @@
+{
+ "title": "CSEN 19 \u2014 Trees and Spanning Trees (June 5, 2026)",
+ "paragraphs": [
+  {
+   "start": 39.2,
+   "end": 114.02,
+   "text": "All right. Hi, everyone. This is our last class today. we're going to talk about characterization of trees and a little bit about spanning trees. So let me start by recalling. What we've defined so far. So we defined tree. To be a graph that's connected which means that it's one piece. You can go from any vertex to any other vertex using a path plus a cyclic. So this is our original definition of a tree okay. Our original definition. This is the definition that oh that's the most standard definition if you like you know. The collision. And so the question that we want to answer to that or explore to that is are there other ways of defining trees that are equivalent, that are logically equivalent. That makes sense. And there is there's actually I can think of six different ways of defining trees. Let me show you three different ways. So here's theorem.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 119.07,
+   "end": 122.7,
+   "text": "We're going to let g t be a finite graph.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 128.37,
+   "end": 133.86,
+   "text": "With n vertices. With n vertices.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 140.88,
+   "end": 215.63,
+   "text": "And m edges. So this is actually the letters that you pull in graph theory use pretty often. So n usually is the number of vertices and edges. This statement is the following the following. This is the conclusion by. The following statements are equivalent are logically equivalent. That's what. These are logically equivalent. So let me tell you what these three conditions are. The first one is that G is connected. basically. So this is our definition of a cheat. This is the standard definition, right? That's the first statement to G is connected. and. the number of edges is equal to n minus one.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 215.66,
+   "end": 286.17,
+   "text": "The number of edges is one less than the number of vertices. Three g is a cyclic no cycles a cyclic means there's no cycles on the graph. And is n minus. That's the that's the statement of the theorem. So the theorem says that this condition here condition one is logically equivalent to condition two. And condition one is also logically called the condition three. And condition two is also logically full the condition three. Does that make sense? Any of these two statements are logically equivalent. And what does that mean? It means that if g satisfies any one of them, it also satisfies the other two okay. If two satisfies any one of them, it also satisfies the other two. So if you think about what this is saying is that if you think about there's three adjectives here, it's connected a cyclic and m is equal to n minus one. It basically says that if you have any two you get the third one. Like if you have connected a cyclic you get minus one. If you have connected and minus one you get a cyclic.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 286.71,
+   "end": 358.05,
+   "text": "And if you have a cyclic and because minus one you recollect. So we want to prove this. The first one is our original definition of a tree. As I indicated here, the other two are related. So in other words, you could have used any of these three as your definition of a tree and it would be the same. You couldn't you wouldn't get new graphs, right. So the one of the couple of reasons why you want to show this, but one of the reasons I wanted to show you this proof, because it illustrates an idea in when you do proofs like this where you show a bunch of statements are equivalent. All you have to show. You have to show the following cycle of implications. You have to show that one implies two, and you have to shot two implies three. And then all you have to show is three plus one. That's it. You don't have to do like all the bi conditionals. You just have to prove three statements. So strategy of proof is the following is we prove the following implications. We prove what implies two plus three. And then three implies one. That's it. That's all we have to do.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 358.29,
+   "end": 429.15,
+   "text": "So if you think about what's happening here we have a cycle of implications right. So one is here. This is what we're going to show. One implies two. And then I'm going to show two implies three. And then we just have to show three implies one. And that's two means. That means everybody's equal to everyone. Okay. Great. So basically, why is this nice? Because it means I don't have to show that to me. I don't have to make a separate proof that one implies three, because one already implies two, which implies three. I also don't have to show that three implies two minus the three implies one, which implies. So that's a nice idea to keep in mind. All right, well let's do it then. We just have to pursue applications. So these are three different ways of finding truths. Actually write that down. 3%. Ways. Of defining trees or characterizing trees. So this result is a type of result that mathematicians would call a characterization.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 431.07,
+   "end": 503.01,
+   "text": "This is a characterization of trees. Okay, well then let's do it one plus the proof. First we're going to do one in class. Well actually we already did this last class. Why? Because. How do you imply I won't lie to you? Start with the assumption. You always assumed the hypothesis, and then you prove the conclusion. So we assume G is connected. basically. But this is our definition of a tree. This is our literally our definition of a tree that we've been using for the past two lectures. But then last time we showed that in this case, last time we showed that, using the longest path trick. You remember we showed that G must have a leaf. Every a cyclic connected graph must have at least. You can look at the longest pathetic dead ends and then we remove a leaf.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 506.01,
+   "end": 532.3,
+   "text": "Do induction. Remove a leaf. Do induction. To me it should be. And I am doing action to show. That G. Has. Exactly. M equals to n minus one.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 536.92,
+   "end": 609.76,
+   "text": "So my point is that we actually did this is it. Because now we know she's connected, right? Because I'm assuming that she's connected in a second. So this one is for free. I don't have work for this. I just have to show every single time I saw what we did last time. We showed that every two years. And most managers. So this proves true. If you see one, then you get two for free, but not for free. We have to work hard. But okay, so this is one question okay. Let's do two plus three. It is more interesting. Two places. So what does it mean? Remember, when you prove an application, you have to assume the hypothesis. So assume two. What does that mean? Two means one is connected, G is connected. And m the number of edges is n minus one. Okay. So that's our assumption. Our goal is to show that g must be a cyclic and m equals to n minus one.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 610.39,
+   "end": 627.61,
+   "text": "But notice that we don't have to work hard for n minus one because it's already part of the assumption. So all we have to show is that the graph is acyclic. So that's the goal. So the goal is to show that G is a set.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 632.14,
+   "end": 692.52,
+   "text": "Now there's a very nice proof idea here. I'm going to assume to the contrary. So I'm going to do proof by contradiction. Assume to a country that G does have a cycle. And then I'm going to get a contradiction. I'm going to get something that contradicts my assumption. Okay. So let me assume that G does have a cycle. We should get a contradiction. A cyclic means a graph has no cycles. That's what we want to show. So let's do proof by contradiction. So let's assume a proof of oracle. We assume. To the country G has a cycle. She has a second. Okay, but now what we can do is we can remove an edge from that cycle. Remove any Azure light from that cycle. Remove. An edge. E remove some edge E from that cycle.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 699.0,
+   "end": 706.64,
+   "text": "to obtain. A smaller, connected graph.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 714.5,
+   "end": 786.92,
+   "text": "Okay, let's see why that's the case. Because if you have a cycle in the graph. If you have a cycle in the graph and the graph is connected to begin with. Because our graph is connected and you know, this graph is kind of connected, it doesn't matter. There's some other ways. If I remove one of the edges from the cycle, one of these cycle edges, do you see the graph is still connected because it has the other path. Other side of the cycle allows you to get from this point to this point. So that's really good news because that means a smaller graph is still connected okay. Now it's possible that the smaller graph that I get is still has a cycle, right? It could still have a cycle all remove another edge. Keep going. Keep removing edges one by one until there's no more cycles. Makes sense. So this graph could still have cycle. So if this one still has a cycle. Still has. A cycle. Continue removing. So we're removing one edge at a time right.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 787.25,
+   "end": 851.35,
+   "text": "One edge at a time to kill all the existing cycles. Because I don't know what the graph looks like. Maybe there's a cycle here. I break that cycle by removing an edge, but maybe there's another cycle that I forgot to take care of. I remove it also by removing an edge so we can continue doing this to continue breaking cycles one cycle at a time. Continue breaking. Continue. Breaking cycles. One at a time. Until we get to. Until we get to a connected a cyclic graph. Right. Because the graph. This process of deleting edges from a cycle keeps the graph connected. That's really nice. So eventually I will still have to end up with a connected graph, because in any of the intermediate steps still connected, right.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 851.47,
+   "end": 923.19,
+   "text": "So until we get a connected. And a cyclic graph which I will call which I will call G till the two of them at the top. So it's a different graph now. Okay. So we start with G and we end up with g. Now how did we go from g tilde. Well do you agree that we remove some number of edges. I don't know how many edges were removed, but we definitely removed at least one edge because in the beginning I said it has a cycle. So suppose we removed in this process in total. Suppose we removed. In total. K edges k edges where k is at least one. That's really important to go from g2 g tilde to go from. G to g tilde. Okay, so all I did is I started with a graph G, which I assumed is connected and has n minus one edges.",
+   "stars": [],
+   "emphasis": true
+  },
+  {
+   "start": 924.0,
+   "end": 940.67,
+   "text": "G had n minus one edges and was connected. And every time I saw a second, I kept removing edges one at a time to create a basically connected graph. But what do we know about G until announce? Do you agree that G tilde is a tree?",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 945.76,
+   "end": 1019.47,
+   "text": "Because it's connected to this cyclic. It's our original definition of a chain. But now let's count edges. Let's count edges okay. Let's count edges. Since G tilde is a tree. We know exactly how many and the number of vertices of G. Tilde is the same as the number of vertices of g, because removing I just doesn't delete vertices, right? It doesn't delete vertices. So the number of vertices of g tilde is still m right. And it's a tree. So we know how many edges it has. So just till that has exactly. N minus one edges. Because it's a tree. However, we can find another way of computing the edges of g tilde by starting with the number of edges of g which was n minus one, and then removing k edges. Because if we move cash, right. On the other hand. But also g tilde must have. Has the number of edges of g minus k edges.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1019.47,
+   "end": 1089.53,
+   "text": "Also because it started with the number of edges of g and removes characters, right. But the number of edges of g by may assumption is n minus one. So it must have n minus one minus k. So I have two different expressions for the number of edges of GTL. One of them is minus one just by virtue of being a three, but the other one is n minus one, minus n minus one, minus kanter's but then those must be equal because they both represent the number of edges of GTL. Therefore, n minus one, minus n minus one minus k must be equal, but this implies the k equal to zero. Contradiction. Because we assume k. Because we assumed. Okay. Because we assumed K is at least one. In the beginning I had said that there's at least one site I knew I had to remove at least one edge. So it's a very nice proof, because I think what it says is that if you had only n minus one edges, there is no way you could have had a cycle.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1090.13,
+   "end": 1161.98,
+   "text": "Because if you did, upon removal of the cycle edges, you would still have n minus one edges. Because you have a tree, how could you still have n minus one edges? I thought you removed at least one edge. That's the contradiction. So it's a very nice proof. I think you should internalize this proof. And it also has another idea embedded in this proof, which is the cycle breaking mechanism cycle breaking. So every time you see a cycle this breaking. Remove one inch. It still renders the graph connected. Okay so now we did two. That implies three. Finally we did have one more implication to show the questions. You know please. Why do you even have to prove by contradiction. Couldn't you just do the same thing? I conclude k equals zero and then say because you remove zero edges, it's a it was basically to begin with. Absolutely. You can do that to practice. I think it's just for students pedagogically it's easier to do contradiction. But you could have just done this argument and you got to take this a zero, which means you didn't have to remove anything. Which means it was already it was already a segment. But then it's like, I don't know how to write that. So I guess I could say remove k edges until the graph becomes a circle. I like to say that with possibility of allowing hate to be zero.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1162.46,
+   "end": 1234.87,
+   "text": "And now that is that. I would say what you were saying is probably mathematically the correct way of writing it. But pedagogically, I find this might be a little easier for students to see a contradiction. In fact, a lot of students write proof by contradiction a lot. Sometimes they don't need to. They can just do contrapositive or correct directly. So I do encourage you to write down direct proofs and contrapositive first as much as possible, but prove a contradiction is still so satisfying for students from what I've seen. Okay. Great question. so let's continue and prove three plus one. Three implies one. That's another nice idea. so for the way a single graphs have another name, I should tell you that they're called forests. They're called forests. So, let me just, write this down. So in a cyclic graph is also called first. It's also called. A forest. So it's called a forest because it's connected. Components are trees. The forest means acyclic. There's no guarantee the forest is connected. Forest can be disconnected.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1235.74,
+   "end": 1299.48,
+   "text": "It just basically. So that means the forest looks like this. That's one tree, right? That's another tree. So this whole thing would be a forest, for example. Makes sense for a bunch of trees. What else is this? Bunch of trees. Okay. So let's try to prove three plays one. Okay. So let's write down three plays one. Let's see what we get. Three implies one. Finally, we don't see a plus one. So again, because we're closing an application, we should always assume hypothesis and protocol. The hypothesis was. G. Has. so. Jesus. We set aside. We. And.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1305.09,
+   "end": 1377.79,
+   "text": "The number of edges is minimized. That's our hypothesis. And we need to prove condition one. Whole goal is condition one. But condition one was disconnected and m equals sorry disconnected. And basically that was condition was disconnected as well. Already a cyclic I have it from here for free. So I just have to show. I just need to show that disconnected. That's it. That's all I have to show. Okay, here is the proof. Okay, this one I'm actually going to do direct proof. I don't know the foundation. So let's say G has a bunch of components. Let's let G have C connected. Components. So for example if I look at this graph here this has two connected components. Connected component means the number of islands okay. But each of those components have to be a tree right. Because they're both acyclic and connected. Now each of the components are connected and they're cyclic.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1378.09,
+   "end": 1448.46,
+   "text": "So thus G consists of. Union A union a union of C trees. Trees in our dual sense collectively single graphs which I will call t1 t2 all the way until t sub c. So those are the trees. Those are my components. All right. I can do that because I know the graph basic like my goal is to show that CS one because if I show CS one that means there's only one component. The whole thing is connected. Make sense? I just need for CS one. Okay, but now look, what do we know about the number of edges? Number of edges is n minus one. That's the number of edges n minus one. That's the number of edges am. So let me write it down. Let me spell it out. This is the number of edges of the graph G. That's what the number of edges us. It's that minus one because of the assumption. But let me express this in a different way because the forest is composed of a bunch of trees. I can also count the number of edges by counting the number of trees and adding them up.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1449.54,
+   "end": 1517.66,
+   "text": "So since. So that means I can express this as a summation of. I goes from one to C number of edges in the component a lot, which is a tree. I like this because it forces a bunch of trees, so I might as well just solve the edges in each tree. However, we know that this. Each of these guys has a tree right in the tree, and we know how many edges a tree has. The number of edges in a tree is the number of vertices in that tree minus one. It's the number of vertices of that tree minus one. So I can write this as v sub tei cardinality minus one. So this is what we're really sorry. However, if I sum up all the vertices, I can split that sum c, I can split that sum into summation. I goes from one to c number of vertices of the I three like that, and then minus summation I goes from one to c of one because I split to one.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1519.35,
+   "end": 1591.99,
+   "text": "Okay, but now it's easy because we know something about, this quantity. What does that. So I'm going through every component and I'm adding how many vertices each component has is inverse. Exactly. I get the total number of vertices. This is literally total number of vertices of a graph, which is n. All of them are vertices. And this is easy, right? Everyone knows how to do that. So just see I'm adding one plus one plus one plus one c times okay. Now take a look at what we have shown. Take a look at minus one. Is equal to this equals to this equals to this, blah equals that means that means n minus one is equal to n minus c, which means c must be one, which means there's only one connected component, which means that the whole graph is connected over time. Very. It's crucial n minus one must be equal to n minus c, which implies cs one. But c was the number of connected components. I mean graph is connected if and only if it has one connected component. G must be connected as it has only one connected component. And we're done with that. Proof of characterization of trees. At least these three conditions.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1593.46,
+   "end": 1663.18,
+   "text": "There are other ways of defining trees. For example, between any two vertices there's a unique path. That's a fourth definition of a tree. Between any two vertices there's a unique path. And then there's fifth definition, which is a graph is minimally connected, means it's connected. But if you remove any edge becomes disconnected. That's another definition of a tree. And final definition of a tree that I know is maximally cyclic. So a graph is a cyclic. There's no cycles. But if you add any single edge, if you add any new single edge, you become cyclic. That's another definition of a tree. There's six different ways of defining trees. I just focus on the three because I think that's proof strategies. Nice. Great. So that's all I want to say about trees. And we're doing good time. I want to talk about spanning trees now. So spanning trees are extremely useful in practice in real life. If you take a class on algorithms, you'll learn about spanning trees. Minimum spanning tree the special. Let me explain what's going on. First of all, I need to define this word. Spanning tree. What does that mean. So I'm going to start with that.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1663.45,
+   "end": 1728.5,
+   "text": "And I'm going to start with any graph G which is connected. The graph doesn't have to be a tree. It can be any tree whatsoever. But it has to be a connected class which means that is one piece. And that. And that just means that your network is a connected network. You can go from any node to any other node using a path. That's what a connection graph is. But there might be many different ways of going from one vertex to another. There might be lots of paths between two vertices, right? So then we're interested in this question of like what is the most efficient way? Can I find some subset of edges where I can reach everything? This is going to lead to the concept of spanning tree. So. So here's an important definition. So let's see. So here's the definition. So let GBA connect to graph. Again, this means there's only one island. So I'm going to define the spanning tree for this one.",
+   "stars": [],
+   "emphasis": true
+  },
+  {
+   "start": 1735.77,
+   "end": 1744.59,
+   "text": "A spanning tree. Of G.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1749.4,
+   "end": 1822.709,
+   "text": "Is a tree T, which is inside G. So he's a subgraph. We say he's a subgraph. Subgraph just means a graph that uses some of the vertices of the graph and some of the edges of a graph. It's just a smaller graph inside of it. Graph. Okay, so spanning tree of G is a tree such that. And this is really important such that the number of the set of. Vertices of T is equal to the set of vertices of G. Okay. So a spanning tree means it's a tree, right? It has all the vertices of the graph, all of them. So of course you don't have all the edges. You got rid of some of the edges. Makes sense. So spanning tree means take your connected graph. Remove enough edges until you get a tree. But you should not remove any vertices. Does that make sense? Vertices remain put like they don't touch vertices, but edges.",
+   "stars": [],
+   "emphasis": true
+  },
+  {
+   "start": 1822.71,
+   "end": 1892.74,
+   "text": "You only pick enough edges to make a tree. Okay. So all right let's do an example. All right. Let's do an example. Let's take a graph. Okay. So some graph. You make it more interesting. I'm. That's a graph. That's a connected graph. It's a connected graph. A spanning tree. So this is my G. A spanning tree means I find a subgraph of this, which is a tree, and it visits every vertex. All right. So I'm going to draw the edges of the sum of the spanning tree with yellow. By the way, I have many choices here. There's no unique choice. So I can do like this. Like this? Maybe like this. I don't want to add this edge. If I add this. Create a cycle. This is forbidden now, but maybe I can go here.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1893.37,
+   "end": 1908.17,
+   "text": "maybe I can go here. Maybe I can go here. Right. That's okay. I haven't created a cycle yet. And then maybe I can go. So let me redraw this is my treatise. So if I recall, history looks like this.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1919.74,
+   "end": 1994.629,
+   "text": "So notice I got every edge, I got every vertex. But I didn't get all the edges. Of course, I had to remove some of the edges. And what's the motivation for this? The motivation is that you could already reach everybody from everybody else using the tree edges. If I'm going to go from somewhere to somewhere, if I want to go from some city to another city, I just need to use the yellow edges. See, I don't need to use the non yellow edges anymore. So the spanning tree is an efficient subsystem within the system. Makes sense. Let's say that you let's say that this graph regional graph represents map of some big country. And the vertices are cities. And there's an edge between two cities. If there's, if you can build a train track between those two cities. A spanning tree is an efficient train system, because in the spanning tree, you only built rails along these edges. And you really can get from anywhere sense. And it uses a minimum number of railroads. There's a point. I never use the redundant edge here, in fact, because it's minimal connected, I really cannot.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 1994.63,
+   "end": 2068.16,
+   "text": "I cannot afford to lose any of the rail tracks. I cannot I cannot afford to lose any of the tracks because then it becomes disconnected. So that's the motivation, is that spanning trees are while they're, they. there are efficient network within the graph. Let's try to prove that proven results now. And some proof. What is the statement? Here's a theorem. Very natural thing that you would want to be true which is the following. Every connected graph has a spanning tree. Meaning you can always do this. You can always find a tree within a graph. You can always find a tree within a connected graph that visits every vertex. And the proof is really nice. We've already seen this first strategy before, which is the chip breaking cycles. If you see a cycle in the graph, break it by removing an edge. Okay.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2068.55,
+   "end": 2137.83,
+   "text": "Do you see how removing an edge from a cycle still like, cannot disconnect the graph. It cannot disconnect the graph. If I remove an edge from a cycle. So just keep removing edges from newly created cycles like until there's no more cycles left. Proof. So this strategy, this proof strategy is called cycle breaking. This is the strategy cycle breaking. So remove edges. Remove an edge. From a from a cycle. Repeatedly. You have to do this repeatedly of course. Until there's no more cycle. Until no more cycles remain. Until no more cycles no more cycles exist. But notice that when I remove edges from the graph, I actually haven't killed any of the vertices. So every at every process, the subgraph I get is still spanning. I'm still not meeting every vertex. But eventually, do you agree that I will break all the cycles? There's no way there could be implemented cycles in a graph because the graph is finite.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2138.37,
+   "end": 2212.109,
+   "text": "So eventually when there's no more cycles left, that means I have got myself connected graph with no cycles, which is a tree, and I visit every vertex, so it's a spanning tree. The final product. Final subgraph that we get is a spanning tree. That's a. In fact, this process gives you an algorithm for finding the spanning tree. Somebody presents you a connected graph, right? Just start removing edges. See, I kind of just remove this edge here, right? We could have removed such to destroy this cycle. I could then remove this edge. Yeah, I could remove this edge to destroy this triangle. I could remove this. I should try this triangle. I guess that's one way. There's many other ways. You could also grow the tree. You could start growing the tree from anywhere by growing the tree. You start in the vertex and start moving. Never visit a vertex that you've seen before. That will also create a spanning tree. So this is a very important topic in applications.",
+   "stars": [],
+   "emphasis": true
+  },
+  {
+   "start": 2212.11,
+   "end": 2279.85,
+   "text": "And if you take an algorithms class think CSS 1623, you learn about minimum wage spanning trees where you ask the same question, but now you put weights on the edges. The weights indicate the cost, the cost of creating a. Trails from a cost of creating a bridge. Or I tried to track. And then you want not just any spanning tree, you want minimum wage spanning tree, which means you want the one where the total cost is cheapest. And that is like, how do you do that? Well, you can't just willy nilly delete titles. What if you accidentally deleted the cheapest sign? What if you actually delete the most? Yeah. The cheapest, edge. So there's a really nice algorithm that says that you can essentially proceed greedily, just keep removing the most expensive cycles, and you will get to the minimum. You will get to that minimum wage, actually. You learn about the algorithm when you take a algorithms class. so, the reason I mentioned the spanning tree is because it's one of the most important application of trees in real life. It's an efficient network within another network. So now I want to show you a mathematical application of spanning trees.",
+   "stars": [],
+   "emphasis": true
+  },
+  {
+   "start": 2280.36,
+   "end": 2325.36,
+   "text": "So how can it how can you spanning tree to your advantage. So here's a really nice result that is hard to prove without spanning trees. But the result itself doesn't even mention trees. The result itself is about graphs. It's about connectedness. These are the kind of results that mathematicians like kind of results, where the statement itself has nothing to do with another object. But then the proof involves that object and show the usefulness of the ideas over time. Right. So let me state theorem which again try to do it directly. This is pretty hard to do. So here's a theorem very natural theorem that's kind of elusive. The theorem says the following. So let's connect this graph.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2331.9,
+   "end": 2337.67,
+   "text": "With at least two vertices. With.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2344.25,
+   "end": 2358.2,
+   "text": "Does that need to work? Here's the statement. That I can find a vertex in the graph. Then there exists a vertex v in the graph.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2362.55,
+   "end": 2433.94,
+   "text": "There exists a vertex v. Vertex v in the graph. Such that. If I remove the vertex from the graph. So g minus v means take the vertex v and remove it. Now by the way, when I remove vertex, I also have to remove all the edges dangling from it, right? I can just remove a vertex and keep that just dangling. When I remove a vertex from a graph, I have to remove all the edges to that vertex. This graph is still connected. That's. So. So the theorem is that it doesn't matter what graph you start with. If it's connected then I can basically I can get away with deleting one vertex and still stay connected.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2434.81,
+   "end": 2504.85,
+   "text": "The reason why this theorem is so hard to prove just so directly, is you have no idea what the graph is, right? In some graphs, removing one vertex will disconnect the graph. Like think about think about something like think about like this bow tie graph. It's called bow tie wrapped bow tie to try with touching an edge. Like if you give it this graph. Right. If I remove this vertex, you see how it becomes disconnected. But if of course here I can remove this corner vertex and I'm good, but I have no idea what the corner means, right? I mean, this is a random graph. So how can I show that there's always one vertex with removal renders the graph still connected? There is a trick. There is a way of proving this without spanning trees, and the idea is to look at the longest path trick. Look at the end vertex of the longest path and remove it and you can show it's connected. But that argument is so convoluted to write down. But if I use spanning trees, the argument is immediate. Here's what I'm going to do to find this magical vertex. I'm going to first take a spanning tree like TVA spanning tree, which I know exists. Let t be a spanning tree of G.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2510.68,
+   "end": 2584.94,
+   "text": "So this means the tree and the vertices of T is the same as vertices of G. Which vertex do you think I should remove? From the treaty. Leaf sapling. I can remove a leaf from a tree and the rest of the tree is connected, right? But then if the rest of the tree is connected, you can go from any vertex to any vertex already in the tree. Then, of course, you can go from any vertex, any vertex in G minus b. That's it. There's a little one line proof. So okay, so let VBA leaf of the tree. By the way, the leaf of the tree. That doesn't mean that this means a degree. This means that the degree of the vertex in the tree part is one. It doesn't mean that the degree of the vertex in the global graph is one degree. The vertex v may not be leaf in the original graph. It might have some other edges coming out in the tree. It's a leaf that makes sense. But then we know that t minus v is connected. Because it's a tree. Because it is a tree. Smaller tree, but t minus v has a C vertex.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2584.94,
+   "end": 2658.68,
+   "text": "Set the number of vertices. The vertex set of t minus v is the same as the vertices of the graph G minus v. They should have same vertices, right? Because originally they share the same vertices. I removed v from both. They have the same set of vertices, and we know that the edges. What do we know about the edges of t minus v? The edges of this is a subset of the edges of g minus, because you minus V could have more edges, but certainly edges of t minus v edges of t minus. But I can already move inside any two vertices here using the edges of the tree. Well then of course I can move around using the edges of the graph. So since okay, so. Thus c minus B is also connected. Because we can already move within the graph using the tree ideas. So the very nice idea. So this is one of the philosophies in mathematics is like in fact we prove the stronger statement here. We didn't just show that g minus v is connected. We found a vertex.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2659.01,
+   "end": 2730.03,
+   "text": "We found a vertex where in the spanning tree that part is connected. But sometimes proving a stronger statement is easier. Because by focusing on the tree, we're less distracted. We know exactly what happens when you remove the vertex of lowest degree. But in a bigger graph, the vertex v could have other neighbors. So then it becomes more complicated. What happens to removing a vertex? Because what if I disconnected from two neighbors of that of V? So it's kind of a really interesting idea in math that I think it should be surprising to you that sometimes proving a stronger statement is easier because it's psychologically easier. We have to think about less things so we can focus better. So it's one of those instances. Yeah. Cool. All right. So next, have we got, 20 minutes. So I want to talk about another application of spanning trees, which is two dominating sets in graphs. All right. So what's a dominating set in a graph. So another subject that's been have studied a lot dominating sets. So a set of vertices is going to be called dominating. If every vertex outside the dominating set has an edge to the dominating set.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2730.08,
+   "end": 2782.67,
+   "text": "So basically the vertices in a dominating set reach everywhere for a dominating set. Right now the definition, the dominating set is a extremely natural thing to think about if you care about graphs. So here's the definition. Let me know if this definition makes sense to you. so let's get a graph. Okay. So a subset of vertices. So D. D is just a subset of vertices. Maybe all of them. Maybe some subset of them. Maybe just one of them. Who knows. Just some subset is called dominating. Is called a dominating set.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2790.38,
+   "end": 2814.8,
+   "text": "If. Okay, basically here in front of the WhatsApp dating service. If any vertex of the graph is either in the dominating set or has an edge to a dominating set. So basically said dominates the entire graph. Makes sense. If, for every vertex.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2820.4,
+   "end": 2895.14,
+   "text": "V n g. If you take any vertex whatsoever. All right. If you think any vertex are either v is in the dominating set already. And if it's not in the dominating set, it has a neighbor in a dominating set. R v as a neighbor. W which is in the dominating set. So basically dominating set is set of vertices that can reach everywhere in just one step. Either you are already there or you can reach that. Now. Clearly dominating sets are important in applications because like think of a graph or a network of people, right. And two people are connected. If, they share some information, like putting only by looking at only people in a dominating set, you basically can reach everyone. Now you have the information yourself, or you can just pass it to the person behind you. So basically now you have to place guards at dominating. Think of like placing guard. Did that make sense. Because they can reach everywhere. So here is a theorem. I want to show you that every graph has a dominating set of size and over two, which is a very weak theorem.",
+   "stars": [],
+   "emphasis": true
+  },
+  {
+   "start": 2895.86,
+   "end": 2914.13,
+   "text": "But it is It's actually best possible in general. So here the theorem. And you'll see why I'm sitting here. Because it has to do with trees. So but the statement itself has nothing to do with trees but graphs. So if g has n vertices.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2918.53,
+   "end": 2934.54,
+   "text": "And, ends up at least two cheese. At least two choices. G has a dominating sense of size at most elevated as a dominating set.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 2938.98,
+   "end": 3012.98,
+   "text": "Set size. As most innovative. I mean, this is kind of like really believable because all I'm saying is it's like you shouldn't be able to take half the vertices, right, to be dominating. Like it's there. No, that seems like unlikely that you need more than half the vertices. But try to prove this directly is also a little bit a little bit finicky. But if I use spanning trees, it becomes basically a warm line of proofs. So this is the reason why I'm showing you this result. Because you spanning trees to prove it you can use spanning trees. Select spanning tree. Spanning tree. Of the three. T of the graph G. So graph G is any graph that's connected. oh. I guess I should say connected then. All right. Sorry about that. I'm just going to say connected. now the result is still true if the graph is not connected, because you can focus on each connected component and apply the same strategy and put that put together and over two together, you can do it. It still works in general, but I don't want to talk about disconnected graph.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3013.32,
+   "end": 3018.02,
+   "text": "Focus on connected. Okay. Well then take a spanning tree and then roots the tree.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3023.92,
+   "end": 3098.8,
+   "text": "I mean it's considered A levels. So if I root a tree. That means I have a route here, right? Then maybe the route has three children, so these are only the edges of the tree, by the way, there could be edges between these two vertices in the original graph by the way. But we all looking at the tree edges. Does that make sense? Okay, so maybe this one has one. This is two. Maybe this is three. All right. Maybe this has one. Maybe this has. To. To something like that. Could be. That could be your spanning tree. But now I notice that my levels look like this. If you remember to level, which is distance from the root, this is level zero. This year is level one this year. So I think I my alignment is pretty bad to be like something like this.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3101.53,
+   "end": 3106.83,
+   "text": "This is level ten. Then my alignment is pretty bad.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3115.35,
+   "end": 3154.92,
+   "text": "This is level three and so on. So how can I pick a dominating set? Well, I can produce two dominating sets for you here. I'll use yellow and blue for that. So I can just pick guys at alternating levels. That would be my dominating set DC. All right. This is one, Mike. One. Dominic said. I'm about to draw you one dominating set. Here's a dominating set. So what I did, I picked things that are level, of even levels level zero. Level two. And if there was a level four here.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3166.55,
+   "end": 3240.3,
+   "text": "And I would do. Like this. The yellow vertices are definitely dominating set because every vertex is either yellow vertex or it's squeezed between two yellow vertices, so it has a neighbor in a yellow vertex, right? So the. So one of my dominating set is a set A. This is all the vertices V such that level of v is even. This is my yellow vertice. So I'm going to use a color a my yellow vertices and that's a dominating set right? Similarly my blue vertices also dominating right. That's dominating right. If I look at only the guys at odd levels they're also dominating. So that's another dominating. I just produced you two dominant sets. Be my second set is also dominating the set of vertices such that the level of V is odd. Okay. Both A and B are dominating. Okay. But what's the sum of A and B.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3245.24,
+   "end": 3249.29,
+   "text": "How many? What's the cardinality of a plus cranium with be.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3259.79,
+   "end": 3270.35,
+   "text": "So what do you know about. And we know. A bit about nominating Sam.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3279.58,
+   "end": 3329.85,
+   "text": "Because. They're exactly the alternating levels. Right? And what do we know about the number of elements in eight plus number of elements. And b it's the total number of vertices of the graph which is n because I've covered everything right. Everything is covered. So I have two dominating sets and the sum is n right. Do you agree that the smaller one should have size of the most? Number two. If I have two got, I have two numbers that out of two, and one of them has to be smaller than or equal to number two. Right. Because if both of the numbers were bigger than the number two, the summation would be more than. If you have two numbers that add up to 100, what are the numbers? Have to be at most 50. You cannot have two numbers more than 52 out of 100. That means one of the numbers has the smaller of the and b.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3339.1,
+   "end": 3347.61,
+   "text": "Is utmost. I'm done and I'm done.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3357.59,
+   "end": 3431.01,
+   "text": "All right. So that's dominating set of size in R2 using three. So what was the key idea here. There was a really nice idea. Basically what we showed is that you can partition the edges of a tree into these two levels. You notice that A and B are disjoint set of vertices, and all the edges cross from A to B or from B2. We've seen these graphs before. We call them bipartite graphs. Bipartite graphs are exactly the graphs where there's two parts, and I usually wrote them like a was on the left hand side, and B was on the right hand side, and the only edges crossed from A to B. That means trees are bipartite. That's what this shows, right? So remember, a bipartite graph is the definition of a bipartite graph. A graph. Means something like this. It means that the vertex set of the graph is a union. This should I say it's a union of a and b, which are the union of every. So it's like ace here. These here. So this is a, this is a, B and B. But you know, some number of vertices on both doesn't have equal number of vertices.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3433.15,
+   "end": 3448.29,
+   "text": "And the only allowed edges are between A and B. That's what a bipartite graph is. Only edges that are allowed are between. So only cross edges and a.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3453.36,
+   "end": 3518.64,
+   "text": "So my project graphs are extremely interesting. And notice here we saw that basically we proved more or less that trees are bipartite, because I can just level the root level from the root and take the guys that are even distance from the root versus or distance from the root, and they're definitely formed by partition. But then the question is who else are bipartite? I mean, it's I mean, trees are one example, but they're definitely graphs are not trees that are bipartite. So what is a characterization of bipartite graphs. So that's kind of the next theorem you would cover in a graph of your class. And here's the theorem that I don't I won't cover in class today. But you can read my notes on it. I'll take the theorem. You should definitely know the theorem. You should know that statement of theorem is a beautiful theorem about bipartite graphs. And as a graph is bipartite, graph G is bipartite. If and only yes. G has no.",
+   "stars": [
+    "must-know"
+   ],
+   "emphasis": true
+  },
+  {
+   "start": 3519.82,
+   "end": 3592.55,
+   "text": "OG cycles. On cycle means a cycle of length OT like odd number of vertices in a cycle. Odd cycle would be odd cycle means like C3 triangle or C5 five cycle or seven cycle, heptagon c nine, and so on. So that's one of odd cycles. And the reason for that and one of the directions is kind of easy to see because if you're bipartite right. If you have bipartite, right? Like this or this. Add to that. Maybe this edge. If you have bipartite. You must if you are very tight bipartite. If you have a cycle, it must be even length. Because if you have a cycle, right. If you leave A to B, you can't go inside. B you have to come back to A, and then if you leave A, you have to come back. So every time you form a cycle you have to do a, b a, b, a, b, c, everything's even cycle. That's one direction. But if you have a bipartite graph, there's no way you cannot cycle.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3592.88,
+   "end": 3662.78,
+   "text": "Because every time you leave a to come back to B, you have to cross back. But the other direction is a little bit more tricky, which is what if? So one direction is easy. If you have a bipartite graph, you cannot have all cycles. But the other direction is if you don't have any hot cycles, how do I know that the graph is bipartite? That's the harder direction. So I assume the graph has no odd cycles. Well, if the graph has no lot cycles, you can do a trick like this to create your v partitions. You can route like you can fix one of the vertices v, and let it be the set of vertices that have even distance from that fixed vertex and b to b instead of vertices of odd distance from that fixed vertex. And then you can show that a and b are in fact by practitioner like graph, assuming they're not cycles. So that requires a proof, which I have in a minute. But the reason why I won't mention this is because now that I know the theorem, that it's obvious that trees are bipartite. Because trees have no cycles at all. Right. Listen. Let's listen to ourselves. Trees have no cycles. Bipartite graph is a graph, not cycles, but trees don't have any cycles. Therefore, trees have not cycles. Right? Trees have no cycles because they have no cycles.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3663.05,
+   "end": 3735.36,
+   "text": "So because trees have no cycles, they're my practice. That's an easy way to see why trees are bipartite. To use this theorem. But this year is way more powerful than saying trees are bipartite. All graphs of cycles are bipartite, so that's a very nice result. just meant, for one, I'll just write that one sentence that I mentioned in your notes. So you have it. The thing I just said that you forget, which is that which is that trees. I have no science. I don't have no cycles at all. Families in particular, they have no odd cycles. And the conclusion is that trees are like five times. And we saw it in the picture too. We already saw this results by leveling it from the root. This is a yellow. That is, Well, it's fully is. so the reason why you might want to know about this characterization is because by partition,",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3735.36,
+   "end": 3809.75,
+   "text": "being bipartite is also an invariant across two graphs. If you have two graphs, one of those bipartite, the other isn't right. Then they can't be isomorphic. It's like having our cycles of not having odd cycles of Americans. So sometimes you helpful to graphs. I noticed that one of them has an art cycle. The other one does not have an on cycle. Therefore, the graphs cannot be isomorphic because one of them is bipartite, the other one is not. Okay. So we have only two minutes left, I believe. So what I want to do, three minutes I want to do is I want to take a group photo of my class, if you're okay with that. So I want to keep a record of all my students. I have been taking photos of my students over a decade now. I have pictures from my grad school days with my students. So do you want to just come up to the board and I'll get somebody to take a picture from the outside? And that's, that's it for this course. Other than the final draft of the Rule of Three getting pieces of paper for the final. Yeah. I want you to create one double sided sheet. The two pages of a single sheet. What do you say the final is, like, more. yeah, I will send an email.",
+   "stars": [
+    "exam mention"
+   ],
+   "emphasis": false
+  },
+  {
+   "start": 3809.86,
+   "end": 3837.86,
+   "text": "That way I'll send you, because I don't want to say something here that if I try to say something, it will be cumulative. The short answer. Yeah. It's not emphasis on things after completing. This course. But once it's done for this course. Do you broke the previous? Sounds like a lot to cover on the final.",
+   "stars": [
+    "exam mention"
+   ],
+   "emphasis": false
+  },
+  {
+   "start": 3851.33,
+   "end": 3883.25,
+   "text": "Thank you so much. Okay. Yeah. Let's go in center. Oh, know. Thank you. All right. Hi, everyone. Please give a big smile. Okay. Show how excited you are about this group mass. 3 to 1 photo. Photo. for a year. Absolutely. All right. Thank you everyone. Thank you. All right.",
+   "stars": [],
+   "emphasis": false
+  },
+  {
+   "start": 3897.71,
+   "end": 3897.81,
+   "text": "So.",
+   "stars": [],
+   "emphasis": false
+  }
+ ]
+}
