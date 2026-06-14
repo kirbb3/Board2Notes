@@ -25,10 +25,18 @@ import numpy as np
 
 ANALYSIS_WIDTH = 640  # downscale width for scoring
 
-# HSV range that counts as "board surface" (green chalkboard, incl. chalk
-# dust haze). Chalk strokes themselves are thin and don't flip a strip.
-BOARD_HSV_LO = (35, 20, 20)
-BOARD_HSV_HI = (105, 255, 220)
+# HSV range that counts as "board surface". Chalk strokes are thin and don't
+# flip a strip, so a written panel is still mostly board surface; a person
+# blocking the panel covers that surface, which is how occlusion is detected.
+BOARD_PRESETS = {
+    # green chalkboard (incl. chalk-dust haze)
+    "green": ((35, 20, 20), (105, 255, 220)),
+    # dark slate / black chalkboard: dark, low-saturation pixels (chalk is
+    # bright and excluded, but it's thin so the panel stays mostly "board")
+    "dark": ((0, 0, 0), (180, 100, 130)),
+}
+# Active range — overwritten from --board in main().
+BOARD_HSV_LO, BOARD_HSV_HI = BOARD_PRESETS["green"]
 
 
 def fmt_ts(seconds: float) -> str:
@@ -155,11 +163,20 @@ def main() -> int:
         help="skip snapshot if it differs from a saved one less than this",
     )
     ap.add_argument(
+        "--board",
+        choices=sorted(BOARD_PRESETS),
+        default="green",
+        help="board surface color: 'green' chalkboard or 'dark' slate/black",
+    )
+    ap.add_argument(
         "--debug-csv",
         action="store_true",
         help="write per-sample strip scores to scores.csv for tuning",
     )
     args = ap.parse_args()
+
+    global BOARD_HSV_LO, BOARD_HSV_HI
+    BOARD_HSV_LO, BOARD_HSV_HI = BOARD_PRESETS[args.board]
 
     cap = cv2.VideoCapture(args.video)
     if not cap.isOpened():
