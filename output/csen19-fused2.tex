@@ -1,0 +1,62 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\newtheorem{theorem}{Theorem}
+\theoremstyle{definition}
+\newtheorem*{definition*}{Definition}
+\newenvironment{exambox}
+  {\par\medskip\noindent\begin{center}\begin{minipage}{0.92\textwidth}%
+   \hrule height 1pt \vspace{4pt}\noindent\textbf{$\bigstar$ EXAM PRIORITY.} }
+  {\vspace{4pt}\hrule height 1pt \end{minipage}\end{center}\medskip}
+\title{CSEN 19 — Trees and Spanning Trees (June 5, 2026)}
+\date{}
+\author{}
+
+\begin{document}
+\maketitle
+
+\section*{Characterization of Trees and Spanning Trees}
+
+A tree is a fundamental graph structure, often initially defined as a connected graph with no cycles. However, this definition is not unique; several equivalent characterizations exist. We will explore these alternative definitions and illustrate how they relate to each other.
+
+\begin{definition*}
+Let $G$ be a graph with $n$ vertices and $m$ edges. The following conditions are logically equivalent:
+\begin{enumerate}
+    \item $G$ is connected and acyclic. This represents the original, standard definition of a tree.
+    \item $G$ is connected and $m = n - 1$.
+    \item $G$ is acyclic and $m = n - 1$.
+\end{enumerate}
+\end{definition*}
+
+This theorem establishes that any one of these conditions can be used to define a tree, as they are all logically equivalent.  If a graph satisfies one condition, it necessarily satisfies the others. This equivalence is useful because it provides multiple perspectives on the same structure and simplifies proofs by allowing us to interchange definitions freely. To prove this theorem, we only need to demonstrate three implications: (1) implies (2), (2) implies (3), and (3) implies (1).
+
+Next, we consider spanning trees. A spanning tree of a graph $G$ is a subgraph that retains all the vertices of $G$ while forming a tree itself.
+
+\begin{definition*}
+A \emph{spanning tree} of a graph $G = (V, E)$ is a subgraph $T = (V, E')$ such that $T$ is a tree and $E' \subseteq E$.
+\end{definition*}
+
+Kruskal’s algorithm provides a method for constructing a spanning tree. It operates by iteratively adding edges to the subgraph in order of increasing weight, ensuring that no cycles are formed.
+
+\begin{enumerate}
+    \item Sort the edges by weight.
+    \item Add edges in order of increasing weight, as long as they don’t create a cycle.
+\end{enumerate}
+
+★ \textit{Exam Note:} Be familiar with the equivalent characterizations of trees and understand how to apply them. Also, know the basic steps of Kruskal’s algorithm for finding spanning trees.
+
+\section*{Characterizing Trees}
+
+We are interested in characterizing trees, which, by definition, are connected graphs with no cycles. A key result states that a graph with $n$ vertices is a tree if and only if it is connected and has $n-1$ edges. This equivalence provides multiple ways to verify whether a graph is a tree.
+
+\begin{theorem}
+Let $G$ be a graph with $n$ vertices and $m$ edges. The following are equivalent:
+(1) $G$ is connected and acyclic.
+(2) $G$ is a tree, so $m=n-1$.
+(3) $G$ is connected and $m=n-1$.
+\end{theorem}
+
+The proof of this equivalence involves demonstrating that (1) implies (2), (2) implies (3), and (3) implies (1). We will first focus on proving the implication from connectedness and acyclicity to having $m = n-1$ edges. 
+\end{document}
