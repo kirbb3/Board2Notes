@@ -76,11 +76,4 @@ so the finisher's polish can drift toward standard textbook phrasing where a
 board was hard to read. For a study guide that's a fair trade for keeping a
 whole term nearly free and private.
 
-## Gold standard
-
-`Lecture 26 - Trees and Spanning Trees.pdf` is the quality bar. The
-2026-06-14 run (`output/csen19-final.pdf`) reaches it: deduplicated
-characterization theorem, three rigorous proofs, real TikZ diagrams, and
-exam callouts.
-
 See `CLAUDE.md` for design decisions, model rationale, and gotchas.
