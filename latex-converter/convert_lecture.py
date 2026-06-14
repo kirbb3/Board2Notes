@@ -177,8 +177,10 @@ def main() -> int:
     ap.add_argument("--title", default="Lecture Notes")
     ap.add_argument("--backend", choices=["ollama", "claude"],
                     default="ollama")
-    ap.add_argument("--model", default="gemma3:12b",
-                    help="model name (ollama tag, or claude model alias)")
+    ap.add_argument("--model", default="qwen2.5vl:7b",
+                    help="model name (ollama tag, or claude model alias). "
+                         "qwen2.5vl:7b reads handwritten board math far "
+                         "better than gemma3 — use a vision model here.")
     ap.add_argument("--ollama-host", default="http://localhost:11434")
     ap.add_argument("--num-ctx", type=int, default=32768,
                     help="ollama context window for the merge step")
@@ -198,7 +200,7 @@ def main() -> int:
     if args.backend == "ollama":
         backend = OllamaBackend(args.model, args.ollama_host, args.num_ctx)
     else:
-        backend = ClaudeBackend(None if args.model == "gemma3:12b"
+        backend = ClaudeBackend(None if args.model == "qwen2.5vl:7b"
                                 else args.model)
 
     out_base = os.path.abspath(args.out)

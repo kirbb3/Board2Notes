@@ -45,7 +45,6 @@ from convert_lecture import (
     TS_RE,
     compile_tex,
     strip_fences,
-    FIX_PROMPT,
 )
 
 # Fixed document head — WE control this, the model only writes body sections.
@@ -248,7 +247,6 @@ def main() -> int:
                     help="ollama context window per chunk")
     ap.add_argument("--boards-per-chunk", type=int, default=4,
                     help="how many board snapshots per model call")
-    ap.add_argument("--max-fixes", type=int, default=3)
     ap.add_argument("--dry-run", action="store_true",
                     help="write <out>.plan.txt and exit (no model calls)")
     args = ap.parse_args()
@@ -313,28 +311,24 @@ def main() -> int:
     tex_path = out_base + ".tex"
     with open(tex_path, "w", encoding="utf-8") as f:
         f.write(tex)
-    print(f"wrote {tex_path}")
+    print(f"wrote {tex_path} and {bodies_path}")
 
-    for attempt in range(args.max_fixes + 1):
-        print(f"compiling (attempt {attempt + 1}) …", flush=True)
-        comp = compile_tex(tex_path)
-        if comp.returncode == 0:
-            print(f"done: {out_base}.pdf")
-            return 0
-        if attempt == args.max_fixes:
-            print("compile still failing; giving up. Last error:",
-                  file=sys.stderr)
-            print(comp.stderr[-2000:], file=sys.stderr)
-            return 1
-        print("compile failed — asking the model to fix …", flush=True)
-        err_tail = (comp.stderr or comp.stdout)[-3000:]
-        with open(tex_path, encoding="utf-8") as f:
-            current = f.read()
-        tex = strip_fences(backend.generate(
-            FIX_PROMPT.format(error=err_tail, tex=current)
-        ))
-        with open(tex_path, "w", encoding="utf-8") as f:
-            f.write(tex)
+    # This is a ROUGH draft: a small local model writes the chunk bodies, so
+    # the assembled document usually has repetition and LaTeX errors. The
+    # Claude finisher (finish_lecture.py) dedups, repairs, and compiles it.
+    # We try a single compile here only as a convenience; we do NOT run a
+    # model fix-loop, because regenerating the whole document in one small
+    # call truncates it. A failed compile here is expected, not an error.
+    print("compiling draft (optional preview) …", flush=True)
+    comp = compile_tex(tex_path)
+    if comp.returncode == 0:
+        print(f"draft compiled: {out_base}.pdf")
+    else:
+        print("draft does not compile as-is (expected for a rough draft).")
+    print("\nNext: polish into the final study guide with —\n"
+          f"  python3 finish_lecture.py {bodies_path} "
+          f"-o {out_base.replace('-fused', '')}-final --title \"{title}\"")
+    return 0
 
     return 1
 
