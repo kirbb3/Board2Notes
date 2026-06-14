@@ -37,6 +37,7 @@ import argparse
 import json
 import os
 import sys
+import time
 
 from convert_lecture import (
     ClaudeBackend,
@@ -210,6 +211,24 @@ def strip_body(text: str) -> str:
     return "\n".join(keep).strip()
 
 
+def generate_body(backend, slice_text: str, retries: int = 4) -> str:
+    """Call the model for one chunk, retrying transient failures (e.g. an
+    Ollama HTTP 500 when the GPU is briefly out of memory)."""
+    delay = 4
+    for attempt in range(retries):
+        try:
+            return strip_body(
+                backend.generate(CHUNK_PROMPT.format(slice=slice_text))
+            )
+        except Exception as e:  # noqa: BLE001 — surface after retries
+            if attempt == retries - 1:
+                raise
+            print(f"    model call failed ({e}); retrying in {delay}s …",
+                  flush=True)
+            time.sleep(delay)
+            delay *= 2
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("transcript", help="transcript-engine .json output")
@@ -225,7 +244,7 @@ def main() -> int:
     ap.add_argument("--model", default="gemma3:12b",
                     help="model name (ollama tag, or claude model alias)")
     ap.add_argument("--ollama-host", default="http://localhost:11434")
-    ap.add_argument("--num-ctx", type=int, default=16384,
+    ap.add_argument("--num-ctx", type=int, default=8192,
                     help="ollama context window per chunk")
     ap.add_argument("--boards-per-chunk", type=int, default=4,
                     help="how many board snapshots per model call")
@@ -270,18 +289,27 @@ def main() -> int:
         backend = ClaudeBackend(None if args.model == "gemma3:12b"
                                 else args.model)
 
-    bodies = []
+    # Per-chunk body cache (resumable — a crash resumes, doesn't restart).
+    bodies_path = out_base + ".bodies.json"
+    bodies: dict[str, str] = {}
+    if os.path.exists(bodies_path):
+        with open(bodies_path, encoding="utf-8") as f:
+            bodies = json.load(f)
+        print(f"resuming: {len(bodies)} chunk(s) already fused")
+
     for i, ch in enumerate(chunks, 1):
+        if str(i) in bodies:
+            continue
         nb = sum(1 for _, _, k, _ in ch if k == "board")
         print(f"[{i}/{len(chunks)}] fusing chunk ({nb} board(s)) …",
               flush=True)
-        body = strip_body(backend.generate(
-            CHUNK_PROMPT.format(slice=render_slice(ch))
-        ))
-        bodies.append(body)
+        bodies[str(i)] = generate_body(backend, render_slice(ch))
+        with open(bodies_path, "w", encoding="utf-8") as f:
+            json.dump(bodies, f, indent=1)
 
+    ordered = [bodies[str(i)] for i in range(1, len(chunks) + 1)]
     tex = (PREAMBLE.format(title=title, date=args.date)
-           + "\n\n".join(bodies) + DOC_TAIL)
+           + "\n\n".join(ordered) + DOC_TAIL)
     tex_path = out_base + ".tex"
     with open(tex_path, "w", encoding="utf-8") as f:
         f.write(tex)
