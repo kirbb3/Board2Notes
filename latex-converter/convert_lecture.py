@@ -187,6 +187,10 @@ def main() -> int:
     ap.add_argument("--max-fixes", type=int, default=3)
     ap.add_argument("--limit", type=int, default=0,
                     help="only process the first N snapshots (for testing)")
+    ap.add_argument("--transcribe-only", action="store_true",
+                    help="stop after writing .fragments.json (skip the "
+                         "boards-only merge/compile — the real pipeline "
+                         "fuses the fragments next)")
     args = ap.parse_args()
 
     snap_dir = os.path.abspath(args.snapshots)
@@ -226,6 +230,12 @@ def main() -> int:
         fragments[name] = text
         with open(frag_path, "w", encoding="utf-8") as f:
             json.dump(fragments, f, indent=1)
+
+    if args.transcribe_only:
+        n = sum(1 for v in fragments.values() if v.strip() != "EMPTY")
+        print(f"transcribe-only: wrote {frag_path} ({n} non-empty "
+              f"fragment(s)). Skipping merge/compile.")
+        return 0
 
     # Stage 2: merge into one document.
     ordered = [

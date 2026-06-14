@@ -54,7 +54,18 @@ PDFs — are kept out of the repo as university property.)
 
 The full pipeline works end-to-end and hit gold-standard quality on the
 CSEN 19 lecture. Setup (Ollama + GPU, models, Claude CLI) is done on the
-desktop. To process a new lecture, run the four stages in order:
+desktop.
+
+To process a new lecture, the easy path is the wrapper:
+
+```
+python3 run_pipeline.py --name <name> --title "<Title>" \
+    --video <video.mp4> --captions <captions.srt>
+# (or --boards boards/<name> to reuse already-extracted snapshots)
+```
+
+It chains all five stages with the proven model defaults and is resumable.
+The individual stages, in order, if you want to run them by hand:
 
 ```
 # 1. board snapshots from the video (needs the .venv with opencv)

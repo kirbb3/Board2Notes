@@ -35,9 +35,29 @@ a single polishing pass at the end.
 
 Prereqs (on the machine with the GPU): [Ollama](https://ollama.com) with
 `ollama pull qwen2.5vl:7b` and `ollama pull gemma3:12b`; `tectonic`; Python
-3.10+ ; the [Claude CLI](https://code.claude.com/docs/en/setup) authenticated
-against your subscription. (On Windows use `py -3.12` and run from the repo
-root.)
+3.10+ with OpenCV (`pip install opencv-python numpy`) for board extraction;
+the [Claude CLI](https://code.claude.com/docs/en/setup) authenticated against
+your subscription. (On Windows use `py -3.12` and run from the repo root.)
+
+### One command
+
+`run_pipeline.py` chains all five stages — video + captions in, finished PDF
+out:
+
+```bash
+python3 run_pipeline.py --name mylecture --title "My Lecture" \
+    --video lecture.mp4 --captions lecture.srt
+# -> output/mylecture-final.pdf
+```
+
+If you already have the board snapshots, pass `--boards boards/mylecture`
+instead of `--video` to skip extraction. Every stage is resumable, so a
+re-run continues where it left off. Override models with `--board-model`,
+`--fuse-model`, `--finish-model`.
+
+### Stage by stage
+
+To run (or re-run) the stages individually:
 
 ```bash
 # 1. board snapshots from the lecture video
