@@ -3,9 +3,9 @@
 Pipeline that turns a recorded university lecture (Panopto video + captions)
 into a textbook-quality LaTeX study guide PDF. Owner: Omer (obelyaev@scu.edu),
 student at Santa Clara University. Full spec: `What it does.md`,
-build order: `5-phase-plan.md`, gold-standard output example:
-`Lecture 26 - Trees and Spanning Trees.pdf` (LuaTeX, theorem/proof style,
-native vector diagrams).
+build order: `5-phase-plan.md`. The quality bar is a professor-made lecture
+PDF (theorem/proof style, native vector diagrams) — kept out of this repo as
+university property; ask the owner for it.
 
 ## Key decisions (do not re-litigate)
 
@@ -38,17 +38,17 @@ native vector diagrams).
 | `chrome-extension/` | ✅ works on SCU Panopto | Load unpacked at chrome://extensions. Downloads video (.mp4, incl. camera-only streams via byte-range HLS) + transcript (.srt, sometimes saved as .txt). Camera 1 = full-frame blackboard for CSEN 19. |
 | `board-extractor/` | ✅ tested on real lecture | `.venv/bin/python extract_boards.py <video> -o <outdir> --debug-csv`. Color-detects the green board, tracks 8 vertical strips, saves one PNG per board state before each erase. 33 snapshots from a 65-min lecture. Venv has opencv. |
 | `latex-converter/convert_lecture.py` | ✅ runs free on the RX 5700 XT | `python3 convert_lecture.py <snapshot-folder> -o output/name --model qwen2.5vl:7b`. Stage 1 (the keeper): per-image transcribe → `.fragments.json` (resumable, cached per board). Stages 2–3 (merge + compile a boards-only PDF) are a bonus you can ignore — the real pipeline fuses the fragments next. Skips the `board-region.png` debug image. `--limit N` for a quick timing test. |
-| `latex-test/` | ✅ proof of concept / benchmark | `boards-24-25.tex/pdf`: manual reconstruction of 2 snapshots, used as the fidelity benchmark when comparing board models (qwen ≈ this; gemma3:4b ≪ this). |
 | `transcript-engine/` | ✅ tested on real lecture | `python3 process_transcript.py <captions.srt/.txt> -o output/name --title "..."`. Deterministic: SRT parse → filler strip → paragraph merge → ★ flags. Outputs .md (human) + .json (for fusion; has `stars`, `emphasis`, timestamps). |
 | `latex-converter/fuse_lecture.py` | ✅ runs free on the RX 5700 XT | `python3 fuse_lecture.py <transcript.json> <fragments.json> -o output/name --model gemma3:12b`. Interleaves spoken paragraphs + board fragments chronologically (snapshots are at erase time, so time-sorting puts each board after the speech that produced it), splits into chunks of ≤`--boards-per-chunk` boards, and writes one LaTeX **body** per chunk (we own the preamble). Resumable via `<out>.bodies.json`; retries transient Ollama 500s. Produces a **rough draft** (repetition + LaTeX bugs are expected) — the finisher cleans it. `--dry-run` writes the chunk plan, no model calls. |
 | `latex-converter/finish_lecture.py` | ✅ produces the final PDF | `python3 finish_lecture.py <out>.bodies.json -o output/name-final --title "..."`. ONE `claude` CLI pass over the assembled draft (fed on stdin): dedup repeated theorems, repair LaTeX, redraw trivial diagrams — keep all math — then tectonic compile (+ up to 2 Claude fix-ups). The only step that uses Claude. |
 
 Compiler: `tectonic` (on the desktop). Claude CLI v2.1.177 installed +
-authenticated (Pro) on the desktop. Test data: CSEN 19 Discrete Math lecture
-of 2026-06-05 — same topic as the gold-standard PDF, ideal for comparison.
-The 2026-06-14 run (`output/csen19-final.pdf`) reached gold-standard quality:
-correct dedup'd theorem, three rigorous proofs, real TikZ diagrams, exam
-boxes, dominating-set + bipartite material.
+authenticated (Pro) on the desktop. Test data: a real Discrete Math lecture
+(2026-06-05) — same topic as the quality-bar PDF, ideal for comparison. The
+2026-06-14 end-to-end run reached that bar: correct dedup'd theorem, three
+rigorous proofs, real TikZ diagrams, exam boxes, dominating-set + bipartite
+material. (Lecture-derived files — transcript, board content, generated
+PDFs — are kept out of the repo as university property.)
 
 ## Current state: COMPLETE (2026-06-14)
 

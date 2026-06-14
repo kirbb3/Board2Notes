@@ -1,5 +1,0 @@
-{
- "board-25_0h25m55s.png": "An acyclic graph is also called a \\emph{forest}.\n\n\\begin{tikzpicture}[scale=0.5, every node/.style={circle, fill, inner sep=1.4pt}]\n  \\node (a1) at (0,1) {};   \\node (a2) at (1,1.4) {};\n  \\node (a3) at (1,0.6) {}; \\node (a4) at (2,1) {};\n  \\draw (a2)--(a1)--(a3); \\draw (a2)--(a4);\n\\end{tikzpicture}\n\n$(2)\\Rightarrow(3)$. Assume $G$ is connected and $m = n-1$. Goal: show $G$ is acyclic.\nSuppose, to the contrary, that $G$ has a cycle. Remove an edge $e$ from the cycle:\nthe graph stays connected. %OCCLUDED\n$\\therefore\\quad n-1 = n-1-k \\Longrightarrow k = 0$, a contradiction.",
- "board-24_0h43m45s.png": "\\begin{definition*}\nLet $G$ be a connected graph. A \\underline{spanning tree} of $G$ is a tree\n$T \\subseteq G$ such that $V(T) = V(G)$.\n\\end{definition*}\n\n\\begin{theorem}\nEvery connected graph $G$ has a spanning tree.\n\\end{theorem}\n\n\\begin{proof}\nRemove an edge from a cycle (repeatedly) until no more cycles exist.\n\\end{proof}",
- "board-26_0h05m10s.png": "EMPTY"
-}

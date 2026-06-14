@@ -15,7 +15,7 @@ limited by the command line).
 
 Usage:
     python3 finish_lecture.py <fused.bodies.json | fused.tex> -o output/final \
-        --title "CSEN 19 — Trees and Spanning Trees"
+        --title "My Lecture"
 """
 
 import argparse

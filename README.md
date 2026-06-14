@@ -41,21 +41,21 @@ root.)
 
 ```bash
 # 1. board snapshots from the lecture video
-board-extractor/.venv/bin/python board-extractor/extract_boards.py lecture.mp4 -o boards/csen19
+board-extractor/.venv/bin/python board-extractor/extract_boards.py lecture.mp4 -o boards/mylecture
 
 # 2. transcript → structured JSON (no model)
-python3 transcript-engine/process_transcript.py captions.srt -o output/csen19 --title "CSEN 19 — Trees"
+python3 transcript-engine/process_transcript.py captions.srt -o output/mylecture --title "My Lecture"
 
 # 3a. boards → LaTeX fragments  (free, local vision model)
-python3 latex-converter/convert_lecture.py boards/csen19 -o output/csen19 --model qwen2.5vl:7b
+python3 latex-converter/convert_lecture.py boards/mylecture -o output/mylecture --model qwen2.5vl:7b
 # 3b. fuse transcript + fragments → rough draft  (free, local)
-python3 latex-converter/fuse_lecture.py output/csen19.json output/csen19.fragments.json -o output/csen19-fused --model gemma3:12b
+python3 latex-converter/fuse_lecture.py output/mylecture.json output/mylecture.fragments.json -o output/mylecture-fused --model gemma3:12b
 
 # 4. polish into the final study guide  (one Claude pass)
-python3 latex-converter/finish_lecture.py output/csen19-fused.bodies.json -o output/csen19-final --title "CSEN 19 — Trees"
+python3 latex-converter/finish_lecture.py output/mylecture-fused.bodies.json -o output/mylecture-final --title "My Lecture"
 ```
 
-Open `output/csen19-final.pdf`. Every stage is resumable — re-running reuses
+Open `output/mylecture-final.pdf`. Every stage is resumable — re-running reuses
 the cached `.fragments.json` / `.bodies.json`, so iterating costs nothing.
 
 ## Why this split (the cost trade-off)
