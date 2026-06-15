@@ -78,6 +78,17 @@ python3 latex-converter/finish_lecture.py output/mylecture-fused.bodies.json -o 
 Open `output/mylecture-final.pdf`. Every stage is resumable — re-running reuses
 the cached `.fragments.json` / `.bodies.json`, so iterating costs nothing.
 
+## Example output
+
+`output/mit6042-mst-final.pdf` was generated end-to-end by this pipeline (and
+the one-command wrapper) from **MIT OpenCourseWare 6.042J, Lecture 8 —
+*Graph Theory II: Minimum Spanning Trees*** (CC BY-NC-SA), a lecture it had
+never seen. From a dark-chalkboard video + captions it produced a clean
+chapter: the walk/path distinction, the *n−1 edges* theorem with an induction
+proof, spanning trees, the edge-swap lemma, and Kruskal's algorithm with a
+full greedy-correctness proof — with native TikZ diagrams and exam callouts.
+(Board reading used `--board dark`; see `board-extractor`.)
+
 ## Why this split (the cost trade-off)
 
 You can't hand a 65-minute video to Claude — it can't watch video — so the
