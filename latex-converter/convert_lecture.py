@@ -144,6 +144,7 @@ class ClaudeBackend:
         if image_path:
             cmd += ["--add-dir", os.path.dirname(image_path)]
         r = subprocess.run(cmd, capture_output=True, text=True,
+                           encoding="utf-8", errors="replace",
                            timeout=timeout)
         if r.returncode != 0:
             raise RuntimeError(f"claude CLI failed: {r.stderr[-500:]}")

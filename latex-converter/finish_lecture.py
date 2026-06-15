@@ -76,7 +76,8 @@ def run_claude(instruction: str, stdin_text: str, model: str | None,
     if model:
         cmd += ["--model", model]
     r = subprocess.run(cmd, input=stdin_text, capture_output=True,
-                       text=True, timeout=timeout)
+                       text=True, encoding="utf-8", errors="replace",
+                       timeout=timeout)
     if r.returncode != 0:
         raise RuntimeError(f"claude CLI failed: {(r.stderr or r.stdout)[-600:]}")
     return r.stdout
