@@ -31,6 +31,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 import urllib.request
 
 TS_RE = re.compile(r"_(\d+)h(\d+)m(\d+)s")
@@ -96,7 +97,7 @@ class OllamaBackend:
         self.num_ctx = num_ctx
 
     def generate(self, prompt: str, image_path: str | None = None,
-                 timeout: int = 1800) -> str:
+                 timeout: int = 600, retries: int = 4) -> str:
         msg = {"role": "user", "content": prompt}
         if image_path:
             with open(image_path, "rb") as f:
@@ -107,13 +108,26 @@ class OllamaBackend:
             "stream": False,
             "options": {"num_ctx": self.num_ctx, "temperature": 0.1},
         }).encode()
-        req = urllib.request.Request(
-            f"{self.host}/api/chat", data=body,
-            headers={"Content-Type": "application/json"},
-        )
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            data = json.loads(resp.read())
-        return data["message"]["content"]
+        # Retry transient failures: a local model on a small GPU sometimes
+        # stalls (request times out) or returns a 500 mid-run; a fresh
+        # request almost always recovers.
+        delay = 5
+        for attempt in range(retries):
+            try:
+                req = urllib.request.Request(
+                    f"{self.host}/api/chat", data=body,
+                    headers={"Content-Type": "application/json"},
+                )
+                with urllib.request.urlopen(req, timeout=timeout) as resp:
+                    return json.loads(resp.read())["message"]["content"]
+            except Exception as e:  # noqa: BLE001 — surface after retries
+                if attempt == retries - 1:
+                    raise
+                print(f"    ollama call failed ({e}); retry "
+                      f"{attempt + 1}/{retries - 1} in {delay}s …",
+                      file=sys.stderr, flush=True)
+                time.sleep(delay)
+                delay *= 2
 
 
 class ClaudeBackend:
