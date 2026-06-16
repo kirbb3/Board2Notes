@@ -9,12 +9,7 @@ It runs almost entirely **free and local**: a vision model on your own GPU
 reads the chalkboard, a local text model drafts the chapter, and Claude does
 a single polishing pass at the end.
 
-<p align="center">
-  <img src="assets/before-after.png" width="840"
-       alt="A chalkboard frame from a lecture transformed into a typeset study-guide page">
-  <br>
-  <em>A frame from <a href="https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/">MIT&nbsp;OCW&nbsp;6.042J</a> (Lecture&nbsp;8, CC&nbsp;BY-NC-SA) → a page of the study guide this pipeline generated from it. Full result: <a href="output/mit6042-mst-final.pdf">output/mit6042-mst-final.pdf</a>.</em>
-</p>
+
 
 ## Pipeline
 
